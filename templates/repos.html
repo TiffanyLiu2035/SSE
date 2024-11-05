@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ username }}'s GitHub Repositories</title>
+</head>
+<body>
+    <h1>Repository List for {{ username }}</h1>
+    
+    {% if repos %}
+    <table border="1" cellpadding="10" cellspacing="0">
+        <tr>
+            <th>Repository Name</th>
+            <th>Stars</th>
+            <th>Forks</th>
+            <th>Open Issues</th>
+            <th>Default Branch</th>
+            <th>Last Updated</th>
+            <th>Latest Commit</th>
+        </tr>
+        {% for repo in repos %}
+        <tr>
+            <td>{{ repo['name'] }}</td>
+            <td>{{ repo['stargazers_count'] }}</td>
+            <td>{{ repo['forks_count'] }}</td>
+            <td>{{ repo['open_issues_count'] }}</td>
+            <td>{{ repo['default_branch'] }}</td>
+            <td>{{ repo['updated_at'] }}</td>
+            <td>
+                {% if repo['latest_commit'] %}
+                    <p><strong>Commit Hash:</strong> {{ repo['latest_commit']['sha'] }}</p>
+                    <p><strong>Author:</strong> {{ repo['latest_commit']['author'] }}</p>
+                    <p><strong>Date:</strong> {{ repo['latest_commit']['date'] }}</p>
+                    <p><strong>Message:</strong> {{ repo['latest_commit']['message'] }}</p>
+                {% else %}
+                    <p>No recent commits available.</p>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No repositories found.</p>
+    {% endif %}
+
+    <h2>Followers</h2>
+    {% if followers %}
+    <ul>
+        {% for follower in followers %}
+        <li>{{ follower['login'] }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No followers found.</p>
+    {% endif %}
+
+    <h2>Following</h2>
+    {% if following %}
+    <ul>
+        {% for user in following %}
+        <li>{{ user['login'] }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Not following anyone.</p>
+    {% endif %}
+</body>
+</html>
